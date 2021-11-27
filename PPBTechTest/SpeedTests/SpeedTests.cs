@@ -9,133 +9,166 @@ namespace PPBTechTest.SpeedTests
 {
     public class SpeedTests
     {
-        public static void HashSpeedIter()
+        public static long HashSpeedIter()
         {
             Console.WriteLine("HashSpeedIter");
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-
-            HashSet<ResultsData> source = (HashSet<ResultsData>)GetData("HashSet");
-            IEnumerator<ResultsData> tData = source.GetEnumerator();
-
 
             int homeWins = 0;
             int awayWins = 0;
+            int overChance = 0;
+            int underChance = 0;
 
-            while (tData.MoveNext())
-            {
-                if (tData.Current.HomeTeamWinner)
-                    homeWins++;
-                else
-                    awayWins++;
-            }
+            var watch = System.Diagnostics.Stopwatch.StartNew();
 
-            PrintResults(homeWins, awayWins);
+            List<ResultsData> simulationData = (List<ResultsData>)GetData("List");
+
+            double median = GetMedian(simulationData);
+
+            ProbabilityIter(simulationData.GetEnumerator(), median, out homeWins, out awayWins, out overChance, out underChance);
+
+            PrintResults(homeWins, awayWins, overChance, underChance);
 
             watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
-            Console.WriteLine("Total time: " + elapsedMs + "ms");
+
+            Console.WriteLine("Total time: " + watch.ElapsedMilliseconds + "ms");
+
+            return watch.ElapsedMilliseconds;
         }
 
-        public static void HashSpeedLinq()
+        public static long HashSpeedLinq()
         {
             Console.WriteLine("HashSpeedLinq");
+
+            int homeWins = 0;
+            int awayWins = 0;
+            int overChance = 0;
+            int underChance = 0;
+
             var watch = System.Diagnostics.Stopwatch.StartNew();
 
-            HashSet<ResultsData> source = (HashSet<ResultsData>)GetData("HashSet");
-            int homeWins = source.Where(x => x.HomeTeamWinner).Count();
-            int awayWins = source.Where(x => x.AwayTeamWinner).Count();
+            List<ResultsData> simulationData = (List<ResultsData>)GetData("List");
 
-            PrintResults(homeWins, awayWins);
+            double median = GetMedian(simulationData);
+
+            HashSet<ResultsData> source = new HashSet<ResultsData>(simulationData);
+
+            WinProbabilityLinq(simulationData, median, out homeWins, out awayWins, out overChance, out underChance);
+
+            PrintResults(homeWins, awayWins, overChance, underChance);
 
             watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
-            Console.WriteLine("Total time: " + elapsedMs + "ms");
+
+            Console.WriteLine("Total time: " + watch.ElapsedMilliseconds + "ms");
+
+            return watch.ElapsedMilliseconds;
         }
 
-        public static void LinkedListIter()
+        public static long LinkedListIter()
         {
             Console.WriteLine("LinkedListIter");
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-
-            LinkedList<ResultsData> source = (LinkedList<ResultsData>)GetData("LinkedList");
-            IEnumerator<ResultsData> tData = source.GetEnumerator();
-
 
             int homeWins = 0;
             int awayWins = 0;
+            int overChance = 0;
+            int underChance = 0;
 
-            while (tData.MoveNext())
-            {
-                if (tData.Current.HomeTeamWinner)
-                    homeWins++;
-                else
-                    awayWins++;
-            }
+            var watch = System.Diagnostics.Stopwatch.StartNew();
 
-            PrintResults(homeWins, awayWins);
+            List<ResultsData> simulationData = (List<ResultsData>)GetData("List");
+
+            double median = GetMedian(simulationData);
+
+            LinkedList<ResultsData> source = new LinkedList<ResultsData>(simulationData);
+
+            ProbabilityIter(simulationData.GetEnumerator(), median, out homeWins, out awayWins, out overChance, out underChance);
+
+            PrintResults(homeWins, awayWins, overChance, underChance);
 
             watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
-            Console.WriteLine("Total time: " + elapsedMs + "ms");
+
+            Console.WriteLine("Total time: " + watch.ElapsedMilliseconds + "ms");
+
+            return watch.ElapsedMilliseconds;
         }
 
-        public static void LinkedListLinq()
+        public static long LinkedListLinq()
         {
             Console.WriteLine("LinkedListLinq");
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-
-            LinkedList<ResultsData> source = (LinkedList<ResultsData>)GetData("LinkedList");
-            int homeWins = source.Where(x => x.HomeTeamWinner).Count();
-            int awayWins = source.Where(x => x.AwayTeamWinner).Count();
-
-            PrintResults(homeWins, awayWins);
-
-            watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
-            Console.WriteLine("Total time: " + elapsedMs + "ms");
-        }
-
-        public static void ListIter()
-        {
-            Console.WriteLine("ListIter");
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-
-            List<ResultsData> source = (List<ResultsData>)GetData("List");
-            IEnumerator<ResultsData> tData = source.GetEnumerator();
-
 
             int homeWins = 0;
             int awayWins = 0;
+            int overChance = 0;
+            int underChance = 0;
 
-            while (tData.MoveNext())
-            {
-                if (tData.Current.HomeTeamWinner)
-                    homeWins++;
-                else
-                    awayWins++;
-            }
-
-            PrintResults(homeWins, awayWins);
-
-            watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
-            Console.WriteLine("Total time: " + elapsedMs + "ms");
-        }
-
-        public static void ListLinq()
-        {
-            Console.WriteLine("ListLinq");
             var watch = System.Diagnostics.Stopwatch.StartNew();
 
-            List<ResultsData> source = (List<ResultsData>)GetData("List");
-            int homeWins = source.Where(x => x.HomeTeamWinner).Count();
-            int awayWins = source.Where(x => x.AwayTeamWinner).Count();
+            List<ResultsData> simulationData = (List<ResultsData>)GetData("List");
 
-            PrintResults(homeWins, awayWins);
+            double median = GetMedian(simulationData);
+
+            LinkedList<ResultsData> source = new LinkedList<ResultsData>(simulationData);
+
+            WinProbabilityLinq(simulationData, median, out homeWins, out awayWins, out overChance, out underChance);
+
+            PrintResults(homeWins, awayWins, overChance, underChance);
 
             watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
-            Console.WriteLine("Total time: " + elapsedMs + "ms");
+
+            Console.WriteLine("Total time: " + watch.ElapsedMilliseconds + "ms");
+
+            return watch.ElapsedMilliseconds;
+        }
+
+        public static long ListIter()
+        {
+            Console.WriteLine("ListIter");
+
+            int homeWins = 0;
+            int awayWins = 0;
+            int overChance = 0;
+            int underChance = 0;
+
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+
+            List<ResultsData> simulationData = (List<ResultsData>)GetData("List");
+
+            double median = GetMedian(simulationData);
+
+            ProbabilityIter(simulationData.GetEnumerator(), median, out homeWins, out awayWins, out overChance, out underChance);
+
+            PrintResults(homeWins, awayWins, overChance, underChance);
+
+            watch.Stop();
+
+            Console.WriteLine("Total time: " + watch.ElapsedMilliseconds + "ms");
+
+            return watch.ElapsedMilliseconds;
+        }
+
+        public static long ListLinq()
+        {
+            Console.WriteLine("ListLinq");
+
+            int homeWins = 0;
+            int awayWins = 0;
+            int overChance = 0;
+            int underChance = 0;
+
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+
+            List<ResultsData> simulationData = (List<ResultsData>)GetData("List");
+
+            double median = GetMedian(simulationData);
+
+            WinProbabilityLinq(simulationData, median, out homeWins, out awayWins, out overChance, out underChance);
+
+            PrintResults(homeWins, awayWins, overChance, underChance);
+
+            watch.Stop();
+
+            Console.WriteLine("Total time: " + watch.ElapsedMilliseconds + "ms");
+
+            return watch.ElapsedMilliseconds;
         }
 
         public static ICollection<ResultsData> GetData(string type)
@@ -147,37 +180,82 @@ namespace PPBTechTest.SpeedTests
                         .ReadLines("Data/GameResults.csv")
                         .Skip(1)
                         .Select(x => new ResultsData(x))
+                        .OrderBy(x => x.TotalPoints)
                         .ToHashSet();
                 case "LinkedList":
                     return new LinkedList<ResultsData>(File
                         .ReadLines("Data/GameResults.csv")
                         .Skip(1)
                         .Select(x => new ResultsData(x))
+                        .OrderBy(x => x.TotalPoints)
                         .ToList());
                 case "List":
                     return File
                         .ReadLines("Data/GameResults.csv")
                         .Skip(1)
                         .Select(x => new ResultsData(x))
+                        .OrderBy(x => x.TotalPoints)
                         .ToList();
                 default:
                     return File
                         .ReadLines("Data/GameResults.csv")
                         .Skip(1)
                         .Select(x => new ResultsData(x))
+                        .OrderBy(x => x.TotalPoints)
                         .ToList();
             }
         }
 
-        static void PrintResults(int homeWins, int awayWins)
+        public static double GetMedian(List<ResultsData> simulationData)
+        {
+            int middle = simulationData.Count / 2;
+            return ((simulationData.Count % 2 != 0) ? (double)simulationData[middle].TotalPoints : ((double)simulationData[middle].TotalPoints + (double)simulationData[middle - 1].TotalPoints) / 2) + .5;
+        }
+
+        public static void ProbabilityIter(IEnumerator<ResultsData> data, double median, out int homeWins, out int awayWins, out int overChance, out int underChance)
+        {
+            homeWins = 0;
+            awayWins = 0;
+            overChance = 0;
+            underChance = 0;
+
+            while (data.MoveNext())
+            {
+                if (data.Current.HomeTeamWinner)
+                    homeWins++;
+                else
+                    awayWins++;
+                if (data.Current.TotalPoints > median)
+                    overChance++;
+                else
+                    underChance++;
+            }
+        }
+        public static void WinProbabilityLinq(ICollection<ResultsData> data, double median, out int homeWins, out int awayWins, out int overChance, out int underChance)
+        {
+            homeWins = data.Where(x => x.HomeTeamWinner).Count();
+            awayWins = data.Where(x => x.AwayTeamWinner).Count();
+            overChance = data.Where(x => x.TotalPoints > median).Count();
+            underChance = data.Where(x => x.TotalPoints < median).Count();
+        }
+
+        public static void PrintResults(int homeWins, int awayWins, int overChance, int underChance)
         {
             double homePercent = (double)(1 * homeWins) / 20000;
             double awayPercent = (double)(1 * awayWins) / 20000;
+            double overPercent = (double)(1 * overChance) / 20000;
+            double underPercent = (double)(1 * underChance) / 20000;
             Console.WriteLine("Total Home Wins: " + homeWins);
             Console.WriteLine("Total Away Wins: " + awayWins);
             Console.WriteLine("Home Win Probability: " + homePercent);
             Console.WriteLine("Away Win Probability: " + awayPercent);
             Console.WriteLine("Total: " + (homePercent + awayPercent));
+            Console.WriteLine();
+            Console.WriteLine("Total Over Line: " + overChance);
+            Console.WriteLine("Total Under Line: " + underChance);
+            Console.WriteLine("Over Line Probability: " + overPercent);
+            Console.WriteLine("Under Line Probability: " + underPercent);
+            Console.WriteLine("Total: " + (overPercent + underPercent));
 
         }
     }
