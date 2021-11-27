@@ -2,7 +2,7 @@
 
 namespace PPBTechTest.Models
 {
-    public class ResultsData : IComparable<ResultsData>
+    public class ResultsData
     {
         public ResultsData (bool homeTeamWinner, bool awayTeamWinnner, int homeTeamPoints, int awayTeamPoints)
         {
@@ -19,11 +19,15 @@ namespace PPBTechTest.Models
             this.HomeTeamPoints = Int32.Parse(values[2]);
             this.AwayTeamPoints = Int32.Parse(values[3]);
             this.TotalPoints = this.HomeTeamPoints + this.AwayTeamPoints;
+            this.HomeWinningMargin = this.AwayTeamPoints - this.HomeTeamPoints;
+            this.AwayWinningMargin = this.HomeTeamPoints - this.AwayTeamPoints;
         }
         public bool HomeTeamWinner { get; }
         public bool AwayTeamWinner { get; }
         public int HomeTeamPoints { get; }
         public int AwayTeamPoints { get; }
         public int TotalPoints { get; }
+        public int HomeWinningMargin { get; }
+        public int AwayWinningMargin { get; }
     }
 }

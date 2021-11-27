@@ -10,15 +10,9 @@ namespace PPBTechTest
     {
         static void Main(string[] args)
         {
-            List<ResultsData> simulationData = GetSimulationData(100);
+            List<ResultsData> simulationData = GetSimulationData();
 
-            int mid = simulationData.Count / 2;
-            double median = 
-                ((simulationData.Count % 2 != 0) 
-                    ? simulationData[mid].TotalPoints 
-                    : (simulationData[mid].TotalPoints + simulationData[mid - 1].TotalPoints) 
-                / 2) 
-                + .5;
+            double median = GetMedian(simulationData);
 
             LinkedList<ResultsData> linkedSimulationData = new LinkedList<ResultsData>(simulationData);
 
@@ -28,6 +22,10 @@ namespace PPBTechTest
             int awayWins = 0;
             int overLine = 0;
             int underLine = 0;
+            int homeOverTenPoints = 0;
+            int homeUnderTenPoints = 0;
+            int awayOverTenPoints = 0;
+            int awayUnderTenPoints = 0;
 
             while (simulationDataIter.MoveNext())
             {
@@ -39,7 +37,17 @@ namespace PPBTechTest
                     overLine++;
                 else
                     underLine++;
+                if (simulationDataIter.Current.HomeWinningMargin >= 11)
+                    homeOverTenPoints++;
+                if (simulationDataIter.Current.HomeWinningMargin <= 10)
+                    homeUnderTenPoints++;
+                if (simulationDataIter.Current.AwayWinningMargin >= 11)
+                    awayOverTenPoints++;
+                if (simulationDataIter.Current.AwayWinningMargin <= 10)
+                    awayUnderTenPoints++;
             }
+
+            PrintResults(homeWins, awayWins, overLine, underLine, homeOverTenPoints, homeUnderTenPoints, awayOverTenPoints, awayUnderTenPoints);
         }
 
         static List<ResultsData> GetSimulationData()
@@ -52,37 +60,43 @@ namespace PPBTechTest
                         .ToList());
         }
 
-        static void RunSpeedTest(int loops)
+        public static double GetMedian(List<ResultsData> simulationData)
         {
-            double hashSpeedIterAverage = 0;
-            double hashSpeedLinqAverage = 0;
-            double linkedListIterAverage = 0;
-            double linkedListLinqAverage = 0;
-            double listIterAverage = 0;
-            double listLinqAverage = 0;
+            int middle = simulationData.Count / 2;
+            return ((simulationData.Count % 2 != 0) ? (double)simulationData[middle].TotalPoints : ((double)simulationData[middle].TotalPoints + (double)simulationData[middle - 1].TotalPoints) / 2) + .5;
+        }
 
-            for(int i = 0; i < loops; i++)
-            {
-                hashSpeedIterAverage += SpeedTests.SpeedTests.HashSpeedIter();
-                Console.WriteLine();
-                hashSpeedLinqAverage += SpeedTests.SpeedTests.HashSpeedLinq();
-                Console.WriteLine();
-                linkedListIterAverage += SpeedTests.SpeedTests.LinkedListIter();
-                Console.WriteLine();
-                linkedListLinqAverage += SpeedTests.SpeedTests.LinkedListLinq();
-                Console.WriteLine();
-                listIterAverage += SpeedTests.SpeedTests.ListIter ();
-                Console.WriteLine();
-                listLinqAverage += SpeedTests.SpeedTests.ListLinq();
-                Console.WriteLine();
-            }
-            Console.WriteLine("Hash Speed Iter Avg: " + (hashSpeedIterAverage / loops));
-            Console.WriteLine("Hash Speed Linq Avg: " + (hashSpeedLinqAverage / loops));
-            Console.WriteLine("Linked List Iter Avg: " + (linkedListIterAverage / loops));
-            Console.WriteLine("Linked List Linq Avg: " + (linkedListLinqAverage / loops));
-            Console.WriteLine("List Iter Avg: " + (listIterAverage / loops));
-            Console.WriteLine("List Linq Avg: " + (listLinqAverage / loops));
-
+        private static void PrintResults(int homeWins, int awayWins, int overLine, int underLine, int homeOverTenPoints, int homeUnderTenPoints, int awayOverTenPoints, int awayUnderTenPoints)
+        {
+            double homePercent = (double)(1 * homeWins) / 20000;
+            double awayPercent = (double)(1 * awayWins) / 20000;
+            double overPercent = (double)(1 * overLine) / 20000;
+            double underPercent = (double)(1 * underLine) / 20000;
+            double homeOverTenPointsPercent = (double)(1 * homeOverTenPoints) / 20000;
+            double homeUnderTenPointsPercent = (double)(1 * homeUnderTenPoints) / 20000;
+            double awayOverTenPointsPercent = (double)(1 * awayOverTenPoints) / 20000;
+            double awayUnderTenPointsPercent = (double)(1 * awayUnderTenPoints) / 20000;
+            Console.WriteLine("Total Home Wins: " + homeWins);
+            Console.WriteLine("Total Away Wins: " + awayWins);
+            Console.WriteLine("Home Win Probability: " + homePercent);
+            Console.WriteLine("Away Win Probability: " + awayPercent);
+            Console.WriteLine("Total: " + (homePercent + awayPercent));
+            Console.WriteLine();
+            Console.WriteLine("Total Over Line: " + overLine);
+            Console.WriteLine("Total Under Line: " + underLine);
+            Console.WriteLine("Over Line Probability: " + overPercent);
+            Console.WriteLine("Under Line Probability: " + underPercent);
+            Console.WriteLine("Total: " + (overPercent + underPercent));
+            Console.WriteLine();
+            Console.WriteLine("Home Over Ten Points Win: " + homeOverTenPoints);
+            Console.WriteLine("Home Under or On Ten Points Win: " + homeUnderTenPoints);
+            Console.WriteLine("Away Over Ten Points Win: " + awayOverTenPoints);
+            Console.WriteLine("Away Under or On Ten Points Win: " + awayUnderTenPoints);
+            Console.WriteLine("Home Over Ten Points Probability: " + homeOverTenPointsPercent);
+            Console.WriteLine("Home Under or On Ten Points Probability: " + homeUnderTenPointsPercent);
+            Console.WriteLine("Away Over Ten Points Probability: " + awayOverTenPointsPercent);
+            Console.WriteLine("Away Under or On Ten Points Probability: " + awayUnderTenPointsPercent);
+            Console.WriteLine("Total: " + (homeOverTenPointsPercent + homeUnderTenPointsPercent + awayOverTenPointsPercent + awayUnderTenPointsPercent));
         }
     }
 }
