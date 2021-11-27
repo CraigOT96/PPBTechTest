@@ -19,9 +19,9 @@ namespace PPBTechTest.Models
             this.HomeTeamPoints = Int32.Parse(values[2]);
             this.AwayTeamPoints = Int32.Parse(values[3]);
         }
-        private bool HomeTeamWinner { get; }
-        private bool AwayTeamWinner { get; }
-        private int HomeTeamPoints { get; }
-        private int AwayTeamPoints { get; }
+        public bool HomeTeamWinner { get; }
+        public bool AwayTeamWinner { get; }
+        public int HomeTeamPoints { get; }
+        public int AwayTeamPoints { get; }
     }
 }
