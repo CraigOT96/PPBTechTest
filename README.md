@@ -29,4 +29,4 @@ From this, it looked with my approach that using a List and LINQ to manipulate i
 
 My approach here was to keep all of the functionality in classes and common functions in a Utilities file to keep the Main file as clean as possible.
 
-On average my solution finishes running and outputs results in 58ms.
+On average my solution finishes running and outputs results in 30ms.
