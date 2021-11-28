@@ -10,7 +10,18 @@ namespace PPBTechTest
     {
         public static void Main(string[] args)
         {
-            RunProgram();
+            try
+            {
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+                RunProgram();
+                watch.Stop();
+                Console.WriteLine();
+                Console.WriteLine("Run time: " + watch.ElapsedMilliseconds + "ms");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
         public static bool RunProgram()
         {
@@ -20,33 +31,15 @@ namespace PPBTechTest
 
                 if (simulationData != null)
                 {
-                    double median = GetMedian(simulationData);
+                    SimulationResults results = new SimulationResults(simulationData.Count, GetMedian(simulationData));
 
                     LinkedList<ResultsData> linkedSimulationData = new LinkedList<ResultsData>(simulationData);
 
                     IEnumerator<ResultsData> simulationDataIter = linkedSimulationData.GetEnumerator();
 
-                    SimulationResults results = new SimulationResults();
-                    results.RecordCount = linkedSimulationData.Count;
-
                     while (simulationDataIter.MoveNext())
                     {
-                        if (simulationDataIter.Current.HomeTeamWinner)
-                            results.HomeWins++;
-                        else
-                            results.AwayWins++;
-                        if (simulationDataIter.Current.TotalPoints > median)
-                            results.OverLine++;
-                        else
-                            results.UnderLine++;
-                        if (simulationDataIter.Current.HomeWinningMargin >= 11)
-                            results.HomeOverTenPoints++;
-                        else if (simulationDataIter.Current.HomeWinningMargin <= 10 && simulationDataIter.Current.HomeWinningMargin > -1)
-                            results.HomeUnderTenPoints++;
-                        else if (simulationDataIter.Current.AwayWinningMargin >= 11)
-                            results.AwayOverTenPoints++;
-                        else if (simulationDataIter.Current.AwayWinningMargin <= 10 && simulationDataIter.Current.AwayWinningMargin > -1)
-                            results.AwayUnderTenPoints++;
+                        results.AddSimulationData(simulationDataIter.Current);
                     }
 
                     results.PrintResults();

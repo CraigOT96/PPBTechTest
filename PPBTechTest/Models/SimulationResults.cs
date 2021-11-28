@@ -6,17 +6,23 @@ namespace PPBTechTest.Models
 {
     public class SimulationResults
     {
-        public int RecordCount { get; set; }
-        public int HomeWins { get; set; }
-        public int AwayWins { get; set; }
-        public int OverLine { get; set; }
-        public int UnderLine { get; set; }
-        public int HomeOverTenPoints { get; set; }
-        public int HomeUnderTenPoints { get; set; }
-        public int AwayOverTenPoints { get; set; }
-        public int AwayUnderTenPoints { get; set; }
+        public SimulationResults (int recordCount, double median)
+        {
+            this.RecordCount = recordCount;
+            this.Median = median;
+        }
+        private int RecordCount { get; set; }
+        private double Median { get; set; }
+        private int HomeWins { get; set; }
+        private int AwayWins { get; set; }
+        private int OverLine { get; set; }
+        private int UnderLine { get; set; }
+        private int HomeOverTenPoints { get; set; }
+        private int HomeUnderTenPoints { get; set; }
+        private int AwayOverTenPoints { get; set; }
+        private int AwayUnderTenPoints { get; set; }
 
-        public void PrintResults ()
+        public void PrintResults()
         {
             Console.WriteLine("Total Home Wins: " + this.HomeWins);
             Console.WriteLine("Total Away Wins: " + this.AwayWins);
@@ -36,6 +42,34 @@ namespace PPBTechTest.Models
             Console.WriteLine("Home Under or On Ten Points Probability: " + CalculatePercent(this.HomeUnderTenPoints, this.RecordCount));
             Console.WriteLine("Away Over Ten Points Probability: " + CalculatePercent(this.AwayOverTenPoints, this.RecordCount));
             Console.WriteLine("Away Under or On Ten Points Probability: " + CalculatePercent(this.AwayUnderTenPoints, this.RecordCount));
+        }
+
+        public void AddSimulationData(ResultsData data)
+        {
+            try
+            {
+                if (data.HomeTeamWinner)
+                    this.HomeWins++;
+                else
+                    this.AwayWins++;
+                if (data.TotalPoints > this.Median)
+                    this.OverLine++;
+                else
+                    this.UnderLine++;
+                if (data.HomeWinningMargin >= 11)
+                    this.HomeOverTenPoints++;
+                else if (data.HomeWinningMargin <= 10 && data.HomeWinningMargin > -1)
+                    this.HomeUnderTenPoints++;
+                else if (data.AwayWinningMargin >= 11)
+                    this.AwayOverTenPoints++;
+                else if (data.AwayWinningMargin <= 10 && data.AwayWinningMargin > -1)
+                    this.AwayUnderTenPoints++;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception();
+            }
         }
 
         private double CalculatePercent(int value, int total)
