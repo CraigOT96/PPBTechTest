@@ -13,14 +13,23 @@ namespace PPBTechTest.Models
         }
         public ResultsData(string simulationLine)
         {
-            string[] values = simulationLine.Split(',');
-            this.HomeTeamWinner = !values[0].Equals("0");
-            this.AwayTeamWinner = !values[1].Equals("0");
-            this.HomeTeamPoints = Int32.Parse(values[2]);
-            this.AwayTeamPoints = Int32.Parse(values[3]);
-            this.TotalPoints = this.HomeTeamPoints + this.AwayTeamPoints;
-            this.HomeWinningMargin = this.HomeTeamPoints - this.AwayTeamPoints;
-            this.AwayWinningMargin = this.AwayTeamPoints - this.HomeTeamPoints;
+            try
+            {
+                string[] values = simulationLine.Split(',');
+                this.HomeTeamWinner = !values[0].Equals("0");
+                this.AwayTeamWinner = !values[1].Equals("0");
+                this.HomeTeamPoints = Int32.Parse(values[2]);
+                this.AwayTeamPoints = Int32.Parse(values[3]);
+                this.TotalPoints = this.HomeTeamPoints + this.AwayTeamPoints;
+                this.HomeWinningMargin = this.HomeTeamPoints - this.AwayTeamPoints;
+                this.AwayWinningMargin = this.AwayTeamPoints - this.HomeTeamPoints;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Invalid file line");
+                Console.WriteLine(simulationLine);
+                Console.WriteLine(ex.Message);
+            }
         }
         public bool HomeTeamWinner { get; }
         public bool AwayTeamWinner { get; }
