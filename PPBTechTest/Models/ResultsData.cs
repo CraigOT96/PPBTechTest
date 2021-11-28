@@ -19,8 +19,8 @@ namespace PPBTechTest.Models
             this.HomeTeamPoints = Int32.Parse(values[2]);
             this.AwayTeamPoints = Int32.Parse(values[3]);
             this.TotalPoints = this.HomeTeamPoints + this.AwayTeamPoints;
-            this.HomeWinningMargin = this.AwayTeamPoints - this.HomeTeamPoints;
-            this.AwayWinningMargin = this.HomeTeamPoints - this.AwayTeamPoints;
+            this.HomeWinningMargin = this.HomeTeamPoints - this.AwayTeamPoints;
+            this.AwayWinningMargin = this.AwayTeamPoints - this.HomeTeamPoints;
         }
         public bool HomeTeamWinner { get; }
         public bool AwayTeamWinner { get; }

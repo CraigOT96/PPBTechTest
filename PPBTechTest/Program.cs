@@ -39,11 +39,11 @@ namespace PPBTechTest
                     underLine++;
                 if (simulationDataIter.Current.HomeWinningMargin >= 11)
                     homeOverTenPoints++;
-                if (simulationDataIter.Current.HomeWinningMargin <= 10)
+                else if (simulationDataIter.Current.HomeWinningMargin <= 10 && simulationDataIter.Current.HomeWinningMargin > -1)
                     homeUnderTenPoints++;
-                if (simulationDataIter.Current.AwayWinningMargin >= 11)
+                else if(simulationDataIter.Current.AwayWinningMargin >= 11)
                     awayOverTenPoints++;
-                if (simulationDataIter.Current.AwayWinningMargin <= 10)
+                else if (simulationDataIter.Current.AwayWinningMargin <= 10 && simulationDataIter.Current.AwayWinningMargin > -1)
                     awayUnderTenPoints++;
             }
 
