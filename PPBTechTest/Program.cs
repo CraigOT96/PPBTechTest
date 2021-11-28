@@ -30,12 +30,12 @@ namespace PPBTechTest
                 Results simulationData = new Results(Utilities.GetSimulationData());
                 if (simulationData != null)
                 {
-                    SimulationResults results = new SimulationResults(simulationData.Data.Count, Utilities.GetMedian(simulationData.Data));
-                    results.AddSimulationDataLinq(simulationData.Data);
-                    results.PrintResults();
+                    SimulationResults simulationResults = new SimulationResults(simulationData.Data.Count, Utilities.GetMedian(simulationData.Data));
+                    simulationResults.AddSimulationDataLinq(simulationData.Data);
+                    simulationResults.PrintResults();
 
                     simulationData.Dispose();
-                    results.Dispose();
+                    simulationResults.Dispose();
 
                     return true;
                 }

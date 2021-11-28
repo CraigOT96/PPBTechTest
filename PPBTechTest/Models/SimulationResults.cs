@@ -73,24 +73,24 @@ namespace PPBTechTest.Models
         }
         public void PrintResults()
         {
-            Console.WriteLine("Total Home Wins: " + this.HomeWins);
-            Console.WriteLine("Total Away Wins: " + this.AwayWins);
-            Console.WriteLine("Home Win Probability: " + CalculatePercent(this.HomeWins, this.RecordCount));
-            Console.WriteLine("Away Win Probability: " + CalculatePercent(this.AwayWins, this.RecordCount));
+            Console.WriteLine("Total Home Team Wins: " + this.HomeWins);
+            Console.WriteLine("Total Away Team Wins: " + this.AwayWins);
+            Console.WriteLine("Home Team Win Probability: " + CalculatePercent(this.HomeWins, this.RecordCount));
+            Console.WriteLine("Away Team Win Probability: " + CalculatePercent(this.AwayWins, this.RecordCount));
             Console.WriteLine();
-            Console.WriteLine("Total Over Line: " + this.OverLine);
-            Console.WriteLine("Total Under Line: " + this.UnderLine);
-            Console.WriteLine("Over Line Probability: " + CalculatePercent(this.OverLine, this.RecordCount));
-            Console.WriteLine("Under Line Probability: " + CalculatePercent(this.UnderLine, this.RecordCount));
+            Console.WriteLine("Total Games Over Half-Point Line: " + this.OverLine);
+            Console.WriteLine("Total Games Under Half-Point Line: " + this.UnderLine);
+            Console.WriteLine("Over Half-Point Line Probability: " + CalculatePercent(this.OverLine, this.RecordCount));
+            Console.WriteLine("Under Half-Point Line Probability: " + CalculatePercent(this.UnderLine, this.RecordCount));
             Console.WriteLine();
-            Console.WriteLine("Home Over Ten Points Win: " + this.HomeOverTenPoints);
-            Console.WriteLine("Home Under or On Ten Points Win: " + this.HomeUnderTenPoints);
-            Console.WriteLine("Away Over Ten Points Win: " + this.AwayOverTenPoints);
-            Console.WriteLine("Away Under or On Ten Points Win: " + this.AwayUnderTenPoints);
-            Console.WriteLine("Home Over Ten Points Probability: " + CalculatePercent(this.HomeOverTenPoints, this.RecordCount));
-            Console.WriteLine("Home Under or On Ten Points Probability: " + CalculatePercent(this.HomeUnderTenPoints, this.RecordCount));
-            Console.WriteLine("Away Over Ten Points Probability: " + CalculatePercent(this.AwayOverTenPoints, this.RecordCount));
-            Console.WriteLine("Away Under or On Ten Points Probability: " + CalculatePercent(this.AwayUnderTenPoints, this.RecordCount));
+            Console.WriteLine("Home Team Over Ten Points Win: " + this.HomeOverTenPoints);
+            Console.WriteLine("Home Team Under or On Ten Points Win: " + this.HomeUnderTenPoints);
+            Console.WriteLine("Away Team Over Ten Points Win: " + this.AwayOverTenPoints);
+            Console.WriteLine("Away Team Under or On Ten Points Win: " + this.AwayUnderTenPoints);
+            Console.WriteLine("Home Team Over Ten Points Probability: " + CalculatePercent(this.HomeOverTenPoints, this.RecordCount));
+            Console.WriteLine("Home Team Under or On Ten Points Probability: " + CalculatePercent(this.HomeUnderTenPoints, this.RecordCount));
+            Console.WriteLine("Away Team Over Ten Points Probability: " + CalculatePercent(this.AwayOverTenPoints, this.RecordCount));
+            Console.WriteLine("Away Team Under or On Ten Points Probability: " + CalculatePercent(this.AwayUnderTenPoints, this.RecordCount));
         }
         public void Dispose()
         {

@@ -32,12 +32,12 @@ namespace PPBTechTest.Models
         public void PrintResults()
         {
             Console.WriteLine();
-            Console.WriteLine("Hash Speed Iter Avg: " + (double)(this.HashSpeedIterAverage / this.Loops));
-            Console.WriteLine("Hash Speed Linq Avg: " + (double)(this.HashSpeedLinqAverage / this.Loops));
-            Console.WriteLine("Linked List Iter Avg: " + (double)(this.LinkedListIterAverage / this.Loops));
-            Console.WriteLine("Linked List Linq Avg: " + (double)(this.LinkedListLinqAverage / this.Loops));
-            Console.WriteLine("List Iter Avg: " + (double)(this.ListIterAverage / this.Loops));
-            Console.WriteLine("List Linq Avg: " + (double)(this.ListLinqAverage / this.Loops));
+            Console.WriteLine("HashSet Speed Iter Avg: " + (double)(this.HashSpeedIterAverage / this.Loops) + "ms");
+            Console.WriteLine("HashSet Speed Linq Avg: " + (double)(this.HashSpeedLinqAverage / this.Loops) + "ms");
+            Console.WriteLine("LinkedList Iter Avg: " + (double)(this.LinkedListIterAverage / this.Loops) + "ms");
+            Console.WriteLine("LinkedList Linq Avg: " + (double)(this.LinkedListLinqAverage / this.Loops) + "ms");
+            Console.WriteLine("List Iter Avg: " + (double)(this.ListIterAverage / this.Loops) + "ms");
+            Console.WriteLine("List Linq Avg: " + (double)(this.ListLinqAverage / this.Loops) + "ms");
         }
     }
 }

@@ -11,12 +11,9 @@ namespace PPBTechTest.Models
         {
             try
             {
-                if (data == null)
-                    this.Data = null;
-                else
-                    this.Data = data;
+                this.Data = data;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 throw new Exception();
@@ -24,6 +21,7 @@ namespace PPBTechTest.Models
         }
         private bool _disposedValue;
         private SafeHandle _safeHandle = new SafeFileHandle(IntPtr.Zero, true);
+        public List<ResultsData> Data { get; }
         public void Dispose()
         {
             Dispose(true);
@@ -40,8 +38,9 @@ namespace PPBTechTest.Models
                 _disposedValue = true;
             }
         }
-        public List<ResultsData> Data { get; }
     }
+
+
     public class ResultsData
     {
         public ResultsData(bool homeTeamWinner, bool awayTeamWinnner, int homeTeamPoints, int awayTeamPoints)

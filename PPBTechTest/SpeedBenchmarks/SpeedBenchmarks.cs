@@ -11,9 +11,7 @@ namespace PPBTechTest
         public void RunSpeedTests(int loops)
         {
             SpeedBenchmarksData benchmarks = new SpeedBenchmarksData(loops);
-
             benchmarks.RunTests();
-
             benchmarks.PrintResults();
         }
     }

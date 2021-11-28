@@ -40,6 +40,12 @@ namespace PPBTechTest.Tests
             Assert.Greater(time, 0);
         }
         [Test]
+        public void RunTestNullDataTest()
+        {
+            long time = Utilities.RunTest(null, null, false);
+            Assert.Greater(time, 0);
+        }
+        [Test]
         public void ConvertDataTest()
         {
             ICollection<ResultsData> data = Utilities.ConvertData("List", new List<ResultsData>());
