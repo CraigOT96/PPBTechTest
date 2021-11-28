@@ -13,11 +13,17 @@ s.RunSpeedTests(10);
 The only parameter here is how many loops you want to do and then gives you the average time. It is output as below:
 
 HashSet Speed Iter Avg: 30.7ms
+
 HashSet Speed Linq Avg: 25.5ms
+
 LinkedList Iter Avg: 28.3ms
+
 LinkedList Linq Avg: 25.4ms
+
 List Iter Avg: 23.9ms
+
 List Linq Avg: 20.8ms
+
 
 From this, it looked with my approach that using a List and LINQ to manipulate it would yield the best results so this is the approach I took.
 
