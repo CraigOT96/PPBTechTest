@@ -1,7 +1,47 @@
-﻿using System;
+﻿using Microsoft.Win32.SafeHandles;
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace PPBTechTest.Models
 {
+    public class Results : IDisposable
+    {
+        public Results(List<ResultsData> data)
+        {
+            try
+            {
+                if (data == null)
+                    this.Data = null;
+                else
+                    this.Data = data;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception();
+            }
+        }
+        private bool _disposedValue;
+        private SafeHandle _safeHandle = new SafeFileHandle(IntPtr.Zero, true);
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _safeHandle.Dispose();
+                }
+                _disposedValue = true;
+            }
+        }
+        public List<ResultsData> Data { get; }
+    }
     public class ResultsData
     {
         public ResultsData(bool homeTeamWinner, bool awayTeamWinnner, int homeTeamPoints, int awayTeamPoints)

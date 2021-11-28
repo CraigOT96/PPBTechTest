@@ -27,66 +27,27 @@ namespace PPBTechTest
         {
             try
             {
-                List<ResultsData> simulationData = GetSimulationData();
-
+                Results simulationData = new Results(Utilities.GetSimulationData());
                 if (simulationData != null)
                 {
-                    SimulationResults results = new SimulationResults(simulationData.Count, GetMedian(simulationData));
-
-                    LinkedList<ResultsData> linkedSimulationData = new LinkedList<ResultsData>(simulationData);
-
-                    IEnumerator<ResultsData> simulationDataIter = linkedSimulationData.GetEnumerator();
-
-                    while (simulationDataIter.MoveNext())
-                    {
-                        results.AddSimulationData(simulationDataIter.Current);
-                    }
-
+                    SimulationResults results = new SimulationResults(simulationData.Data.Count, Utilities.GetMedian(simulationData.Data));
+                    results.AddSimulationDataLinq(simulationData.Data);
                     results.PrintResults();
+
+                    simulationData.Dispose();
+                    results.Dispose();
 
                     return true;
                 }
                 else
                 {
-                    throw new FileNotFoundException();
+                    return false;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
                 return false;
-            }
-        }
-
-        public static List<ResultsData> GetSimulationData()
-        {
-            try
-            {
-                return new List<ResultsData>(File
-                            .ReadLines("Data/GameResults.csv")
-                            .Skip(1)
-                            .Select(x => new ResultsData(x))
-                            .OrderBy(x => x.TotalPoints)
-                            .ToList());
-            }
-            catch(FileNotFoundException ex)
-            {
-                Console.WriteLine("File not found: " + ex.Message);
-                return null;
-            }
-        }
-
-        public static double GetMedian(List<ResultsData> simulationData)
-        {
-            try
-            {
-                int middle = simulationData.Count / 2;
-                return ((simulationData.Count % 2 != 0) ? (double)simulationData[middle].TotalPoints : ((double)simulationData[middle].TotalPoints + (double)simulationData[middle - 1].TotalPoints) / 2) + .5;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return 0;
             }
         }
     }
