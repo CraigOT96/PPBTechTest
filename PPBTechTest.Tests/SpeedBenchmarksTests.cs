@@ -1,7 +1,5 @@
 using NUnit.Framework;
-using PPBTechTest.Models;
 using System;
-using System.Collections.Generic;
 
 namespace PPBTechTest.Tests
 {
@@ -13,8 +11,8 @@ namespace PPBTechTest.Tests
         {
             try
             {
-                SpeedBenchmarks benchmark = new SpeedBenchmarks();
-                benchmark.RunSpeedTests(10);
+                SpeedBenchmarks speedBenchmarks = new SpeedBenchmarks();
+                speedBenchmarks.RunSpeedTests(10);
             }
             catch (Exception ex)
             {

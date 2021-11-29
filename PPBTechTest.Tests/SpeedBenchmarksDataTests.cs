@@ -1,7 +1,6 @@
 using NUnit.Framework;
 using PPBTechTest.Models;
 using System;
-using System.Collections.Generic;
 
 namespace PPBTechTest.Tests
 {
@@ -11,16 +10,16 @@ namespace PPBTechTest.Tests
         [Test]
         public void SpeedBenchmarksDataTest()
         {
-            SpeedBenchmarksData data = new SpeedBenchmarksData(10);
-            Assert.IsNotNull(data);
+            SpeedBenchmarksData speedBenchmarksData = new SpeedBenchmarksData(10);
+            Assert.IsNotNull(speedBenchmarksData);
         }
         [Test]
-        public void RunTestsTest()
+        public void RunSpeedBenchmarksTest()
         {
             try
             {
-                SpeedBenchmarksData data = new SpeedBenchmarksData(10);
-                data.RunTests();
+                SpeedBenchmarksData speedBenchmarksData = new SpeedBenchmarksData(10);
+                speedBenchmarksData.RunSpeedBenchmarks();
             }
             catch (Exception ex)
             {
@@ -32,8 +31,8 @@ namespace PPBTechTest.Tests
         {
             try
             {
-                SpeedBenchmarksData data = new SpeedBenchmarksData(10);
-                data.PrintResults();
+                SpeedBenchmarksData speedBenchmarksData = new SpeedBenchmarksData(10);
+                speedBenchmarksData.PrintResults();
             }
             catch (Exception ex)
             {

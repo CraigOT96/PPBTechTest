@@ -1,6 +1,7 @@
 ﻿using PPBTechTest.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -8,14 +9,14 @@ namespace PPBTechTest
 {
     public class Utilities
     {
-        public static List<ResultsData> GetSimulationData()
+        public static List<Result> GetResultsData()
         {
             try
             {
-                return new List<ResultsData>(File
+                return new List<Result>(File
                             .ReadLines("Data/GameResults.csv")
                             .Skip(1)
-                            .Select(x => new ResultsData(x))
+                            .Select(x => new Result(x))
                             .OrderBy(x => x.TotalPoints)
                             .ToList());
             }
@@ -25,12 +26,12 @@ namespace PPBTechTest
                 return null;
             }
         }
-        public static double GetMedian(List<ResultsData> simulationData)
+        public static double GetMedian(List<Result> resultsData)
         {
             try
             {
-                int middle = simulationData.Count / 2;
-                return ((simulationData.Count % 2 != 0) ? (double)simulationData[middle].TotalPoints : ((double)simulationData[middle].TotalPoints + (double)simulationData[middle - 1].TotalPoints) / 2) + .5;
+                int middle = resultsData.Count / 2;
+                return ((resultsData.Count % 2 != 0) ? (double)resultsData[middle].TotalPoints : ((double)resultsData[middle].TotalPoints + (double)resultsData[middle - 1].TotalPoints) / 2) + .5;
             }
             catch (Exception ex)
             {
@@ -38,33 +39,39 @@ namespace PPBTechTest
                 return 0;
             }
         }
-        public static long RunTest(string testName, string dataType, bool useIterator)
+        public static long RunBenchmark(string benchmarkName, string dataType, bool useIterator)
         {
-            Console.WriteLine(testName);
-            var watch = System.Diagnostics.Stopwatch.StartNew();
+            Console.WriteLine(benchmarkName);
+            Stopwatch stopwatch = Stopwatch.StartNew();
             try
             {
-                Results data = new Results(Utilities.GetSimulationData());
+                Results results = new Results(Utilities.GetResultsData());
 
-                if (data != null)
+                if (results != null)
                 {
-                    SimulationResults results = new SimulationResults(data.Data.Count, Utilities.GetMedian(data.Data));
+                    SimulationResult simulationResults = new SimulationResult(results.ResultsData.Count, Utilities.GetMedian(results.ResultsData));
 
-                    ICollection<ResultsData> source = ConvertData(dataType, data.Data);
+                    ICollection<Result> convertedData = ConvertDataType(dataType, results.ResultsData);
 
                     if (useIterator)
-                        ProbabilityIterator(source.GetEnumerator(), results);
+                    {
+                        simulationResults.AddSimulationDataIterator(convertedData.GetEnumerator());
+                        simulationResults.PrintResults();
+                    }
                     else
-                        ProbabilityLinq(source, results);
+                    {
+                        simulationResults.AddSimulationDataLinq(convertedData);
+                        simulationResults.PrintResults();
+                    }
 
-                    watch.Stop();
+                    stopwatch.Stop();
 
-                    Console.WriteLine("Total time: " + watch.ElapsedMilliseconds + "ms");
+                    Console.WriteLine("Total time: " + stopwatch.ElapsedMilliseconds + "ms");
 
-                    data.Dispose();
                     results.Dispose();
+                    simulationResults.Dispose();
 
-                    return watch.ElapsedMilliseconds;
+                    return stopwatch.ElapsedMilliseconds;
                 }
                 else
                 {
@@ -77,47 +84,21 @@ namespace PPBTechTest
                 return 0;
             }
         }
-        public static ICollection<ResultsData> ConvertData(string type, ICollection<ResultsData> data)
+        public static ICollection<Result> ConvertDataType(string type, ICollection<Result> data)
         {
             try
             {
                 switch (type)
                 {
                     case "HashSet":
-                        return new HashSet<ResultsData>(data);
+                        return new HashSet<Result>(data);
                     case "LinkedList":
-                        return new LinkedList<ResultsData>(data);
+                        return new LinkedList<Result>(data);
                     case "List":
-                        return new List<ResultsData>(data);
+                        return new List<Result>(data);
                     default:
-                        return new List<ResultsData>(data);
+                        return new List<Result>(data);
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw new Exception();
-            }
-        }
-        public static void ProbabilityIterator(IEnumerator<ResultsData> data, SimulationResults results)
-        {
-            try
-            {
-                results.AddSimulationDataIterator(data);
-                results.PrintResults();
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw new Exception();
-            }
-        }
-        public static void ProbabilityLinq(ICollection<ResultsData> data, SimulationResults results)
-        {
-            try
-            {
-                results.AddSimulationDataLinq(data);
-                results.PrintResults();
             }
             catch (Exception ex)
             {

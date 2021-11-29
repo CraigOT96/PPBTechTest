@@ -1,7 +1,5 @@
 using NUnit.Framework;
-using PPBTechTest.Models;
 using System;
-using System.Collections.Generic;
 
 namespace PPBTechTest.Tests
 {

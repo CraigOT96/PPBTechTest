@@ -1,8 +1,6 @@
 ﻿using PPBTechTest.Models;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Diagnostics;
 
 namespace PPBTechTest
 {
@@ -12,11 +10,10 @@ namespace PPBTechTest
         {
             try
             {
-                var watch = System.Diagnostics.Stopwatch.StartNew();
+                Stopwatch stopwatch = Stopwatch.StartNew();
                 RunProgram();
-                watch.Stop();
-                Console.WriteLine();
-                Console.WriteLine("Run time: " + watch.ElapsedMilliseconds + "ms");
+                stopwatch.Stop();
+                Console.WriteLine("Run time: " + stopwatch.ElapsedMilliseconds + "ms");
             }
             catch (Exception ex)
             {
@@ -27,14 +24,14 @@ namespace PPBTechTest
         {
             try
             {
-                Results simulationData = new Results(Utilities.GetSimulationData());
-                if (simulationData != null)
+                Results results = new Results(Utilities.GetResultsData());
+                if (results != null)
                 {
-                    SimulationResults simulationResults = new SimulationResults(simulationData.Data.Count, Utilities.GetMedian(simulationData.Data));
-                    simulationResults.AddSimulationDataLinq(simulationData.Data);
+                    SimulationResult simulationResults = new SimulationResult(results.ResultsData.Count, Utilities.GetMedian(results.ResultsData));
+                    simulationResults.AddSimulationDataLinq(results.ResultsData);
                     simulationResults.PrintResults();
 
-                    simulationData.Dispose();
+                    results.Dispose();
                     simulationResults.Dispose();
 
                     return true;

@@ -6,44 +6,44 @@ using System.Collections.Generic;
 namespace PPBTechTest.Tests
 {
     [TestFixture]
-    public class ResultsDataTests
+    public class ResultsTests
     {
         [Test]
         public void ResultsTest()
         {
-            Results data = new Results(new List<ResultsData>());
-            Assert.IsNotNull(data.Data);
+            Results results = new Results(new List<Result>());
+            Assert.IsNotNull(results.ResultsData);
         }
         [Test]
         public void ResultsNullListTest()
         {
-            Results data = new Results(null);
-            Assert.IsNull(data.Data);
+            Results results = new Results(null);
+            Assert.IsNull(results.ResultsData);
         }
         [Test]
         public void ResultsDataTest()
         {
-            ResultsData data = new ResultsData(false, true, 71, 81);
-            Assert.IsNotNull(data);
+            Result result = new Result(false, true, 71, 81);
+            Assert.IsNotNull(result);
         }
         [Test]
         public void ResultsDataMinMaxValueTest()
         {
-            ResultsData data = new ResultsData(false, true, Int32.MinValue, Int32.MaxValue);
-            Assert.IsNotNull(data);
+            Result result = new Result(false, true, Int32.MinValue, Int32.MaxValue);
+            Assert.IsNotNull(result);
         }
         [Test]
         public void ResultsDataCSVLineTest()
         {
-            ResultsData data = new ResultsData("0, 1, 71, 81");
-            Assert.IsNotNull(data);
+            Result result = new Result("0, 1, 71, 81");
+            Assert.IsNotNull(result);
         }
         [Test]
         public void ResultsDataInvalidCSVLineTest()
         {
             try
             {
-                ResultsData data = new ResultsData("0, 1, 71, ");
+                Result result = new Result("0, 1, 71, ");
             }
             catch (Exception ex)
             {
@@ -55,7 +55,7 @@ namespace PPBTechTest.Tests
         {
             try
             {
-                ResultsData data = new ResultsData("h, h, 71, 81");
+                Result result = new Result("h, h, 71, 81");
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace PPBTechTest.Tests
         {
             try
             {
-                ResultsData data = new ResultsData("0, 1, 1238612876381263876128736812763, 0987609689680968680689");
+                Result result = new Result("0, 1, 1238612876381263876128736812763, 0987609689680968680689");
             }
             catch (Exception ex)
             {

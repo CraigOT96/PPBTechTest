@@ -7,11 +7,11 @@ namespace PPBTechTest.Models
 {
     public class Results : IDisposable
     {
-        public Results(List<ResultsData> data)
+        public Results(List<Result> results)
         {
             try
             {
-                this.Data = data;
+                this.ResultsData = results;
             }
             catch (Exception ex)
             {
@@ -21,7 +21,7 @@ namespace PPBTechTest.Models
         }
         private bool _disposedValue;
         private SafeHandle _safeHandle = new SafeFileHandle(IntPtr.Zero, true);
-        public List<ResultsData> Data { get; }
+        public List<Result> ResultsData { get; }
         public void Dispose()
         {
             Dispose(true);
@@ -41,9 +41,9 @@ namespace PPBTechTest.Models
     }
 
 
-    public class ResultsData
+    public class Result
     {
-        public ResultsData(bool homeTeamWinner, bool awayTeamWinnner, int homeTeamPoints, int awayTeamPoints)
+        public Result(bool homeTeamWinner, bool awayTeamWinnner, int homeTeamPoints, int awayTeamPoints)
         {
             try
             {
@@ -61,15 +61,15 @@ namespace PPBTechTest.Models
                 throw new Exception();
             }
         }
-        public ResultsData(string simulationLine)
+        public Result(string simulationData)
         {
             try
             {
-                string[] values = simulationLine.Split(',');
-                this.HomeTeamWinner = Int32.Parse(values[0]) != 0;
-                this.AwayTeamWinner = Int32.Parse(values[1]) != 0;
-                this.HomeTeamPoints = Int32.Parse(values[2]);
-                this.AwayTeamPoints = Int32.Parse(values[3]);
+                string[] simulationValues = simulationData.Split(',');
+                this.HomeTeamWinner = Int32.Parse(simulationValues[0]) != 0;
+                this.AwayTeamWinner = Int32.Parse(simulationValues[1]) != 0;
+                this.HomeTeamPoints = Int32.Parse(simulationValues[2]);
+                this.AwayTeamPoints = Int32.Parse(simulationValues[3]);
                 this.TotalPoints = this.HomeTeamPoints + this.AwayTeamPoints;
                 this.HomeWinningMargin = this.HomeTeamPoints - this.AwayTeamPoints;
                 this.AwayWinningMargin = this.AwayTeamPoints - this.HomeTeamPoints;
@@ -77,7 +77,7 @@ namespace PPBTechTest.Models
             catch (Exception ex)
             {
                 Console.WriteLine("Invalid file line");
-                Console.WriteLine(simulationLine);
+                Console.WriteLine(simulationData);
                 Console.WriteLine(ex.Message);
                 throw new Exception();
             }

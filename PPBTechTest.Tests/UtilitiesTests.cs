@@ -11,14 +11,14 @@ namespace PPBTechTest.Tests
         [Test]
         public void GetSimulationDataTest()
         {
-            List<ResultsData> data = Utilities.GetSimulationData();
-            Assert.True(data.Count > 0);
+            List<Result> results = Utilities.GetResultsData();
+            Assert.True(results.Count > 0);
         }
         [Test]
         public void GetMedianTest()
         {
-            List<ResultsData> data = Utilities.GetSimulationData();
-            double median = Utilities.GetMedian(data);
+            List<Result> results = Utilities.GetResultsData();
+            double median = Utilities.GetMedian(results);
             Assert.True(median > 0);
         }
         [Test]
@@ -28,97 +28,41 @@ namespace PPBTechTest.Tests
             Assert.AreEqual(median, 0);
         }
         [Test]
-        public void RunTestTest()
+        public void RunBenchmarkTest()
         {
-            long time = Utilities.RunTest("Hash Set Iterator", "List", false);
-            Assert.Greater(time, 0);
+            long runtime = Utilities.RunBenchmark("Hash Set Iterator", "List", false);
+            Assert.Greater(runtime, 0);
         }
         [Test]
-        public void RunTestInvalidDataTest()
+        public void RunBenchmarkInvalidDataTest()
         {
-            long time = Utilities.RunTest("kjasbndasbdjabs", "asoidhasoihd", false);
-            Assert.Greater(time, 0);
+            long runtime = Utilities.RunBenchmark("kjasbndasbdjabs", "asoidhasoihd", false);
+            Assert.Greater(runtime, 0);
         }
         [Test]
-        public void RunTestNullDataTest()
+        public void RunBenchmarkNullDataTest()
         {
-            long time = Utilities.RunTest(null, null, false);
-            Assert.Greater(time, 0);
+            long runtime = Utilities.RunBenchmark(null, null, false);
+            Assert.Greater(runtime, 0);
         }
         [Test]
-        public void ConvertDataTest()
+        public void ConvertDataTypeTest()
         {
-            ICollection<ResultsData> data = Utilities.ConvertData("List", new List<ResultsData>());
-            Assert.IsNotNull(data);
+            ICollection<Result> results = Utilities.ConvertDataType("List", new List<Result>());
+            Assert.IsNotNull(results);
         }
         [Test]
-        public void ConvertDataInvalidTypeTest()
+        public void ConvertDataTypeInvalidTypeTest()
         {
-            ICollection<ResultsData> data = Utilities.ConvertData("asasasaas", new List<ResultsData>());
-            Assert.IsNotNull(data);
+            ICollection<Result> results = Utilities.ConvertDataType("asasasaas", new List<Result>());
+            Assert.IsNotNull(results);
         }
         [Test]
-        public void ConvertDataInvalidDataTest()
+        public void ConvertDataTypeInvalidDataTest()
         {
             try
             {
-                ICollection<ResultsData> data = Utilities.ConvertData("", null);
-            }
-            catch (Exception ex)
-            {
-                Assert.IsNotNull(ex);
-            }
-        }
-        [Test]
-        public void ProbabilityIteratorTest()
-        {
-            try
-            {
-                List<ResultsData> data = new List<ResultsData>();
-                SimulationResults results = new SimulationResults(10, 10);
-                Utilities.ProbabilityIterator(data.GetEnumerator(), results);
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail(ex.Message);
-            }
-        }
-        [Test]
-        public void ProbabilityIteratorNullDataTest()
-        {
-            try
-            {
-                List<ResultsData> data = null;
-                SimulationResults results = null;
-                Utilities.ProbabilityIterator(data.GetEnumerator(), results);
-            }
-            catch (Exception ex)
-            {
-                Assert.IsNotNull(ex);
-            }
-        }
-        [Test]
-        public void ProbabilityLinqTest()
-        {
-            try
-            {
-                List<ResultsData> data = new List<ResultsData>();
-                SimulationResults results = new SimulationResults(10, 10);
-                Utilities.ProbabilityLinq(data, results);
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail(ex.Message);
-            }
-        }
-        [Test]
-        public void ProbabilityLinqNullDataTest()
-        {
-            try
-            {
-                List<ResultsData> data = null;
-                SimulationResults results = null;
-                Utilities.ProbabilityLinq(data, results);
+                ICollection<Result> results = Utilities.ConvertDataType("", null);
             }
             catch (Exception ex)
             {
